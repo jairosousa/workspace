@@ -5,10 +5,10 @@ import edu.java8.practice.domain.Privilege;
 import edu.java8.practice.domain.User;
 import edu.java8.practice.service.UserService;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 
 import static java.util.Arrays.asList;
@@ -28,23 +28,44 @@ public class UserServiceImplTest {
         final User user1 = new User(1L, "John", "Doe", 26, ALL_PRIVILEGES);
         final User user2 = new User(2L, "Greg", "Smith", 30, ALL_PRIVILEGES);
         final User user3 = new User(3L, "Alex", "Smith", 13, ALL_PRIVILEGES);
-
+        final User user4 = new User(4L, "Dynamic", "Blunt", 30,
+                Collections.singletonList(Privilege.READ));
+        final User user5 = new User(5L, "Dynamic", "BluntTech", 30,
+                ALL_PRIVILEGES);
         final List<User> sortedUsers =
-                userService.sortByAgeDescAndNameAsc(asList(user1, user2, user3));
+                userService.sortByAgeDescAndNameAsc(asList(user1, user2, user3,user4, user5));
 
-        assertThat(sortedUsers).containsExactly(user2, user1, user3);
+        System.out.println(sortedUsers);
+        assertThat(sortedUsers).containsExactly(user4, user5, user2, user1, user3);
+
+        Assertions.assertArrayEquals(
+                sortedUsers.toArray(),
+                new User[]{ user4, user5, user2, user1, user3}
+        );
     }
 
     @Test
+    @DisplayName("Return all distinct privilege in the list")
     public void shouldReturnDistinctPrivilegesForUsers() {
-        final User createUser = new User(1L, "John", "Doe", 26, singletonList(Privilege.CREATE));
-        final User updateUser = new User(2L, "Greg", "Smith", 30, singletonList(Privilege.UPDATE));
-        final User deleteUser = new User(3L, "Alex", "Smith", 13, singletonList(Privilege.DELETE));
-
+        final User createUser = new User(1L, "John", "Doe", 26,
+                Collections.singletonList(Privilege.CREATE));
+        final User updateUser = new User(2L, "Greg", "Smith", 30,
+                Collections.singletonList(Privilege.UPDATE));
+        final User updateUser1 = new User(3L, "Greg", "Smith", 20,
+                Collections.singletonList(Privilege.UPDATE));
+        final User deleteUser = new User(4L, "Alex", "Smith", 13,
+                Collections.singletonList(Privilege.DELETE));
         final List<Privilege> distinctPrivileges =
-                userService.getAllDistinctPrivileges(asList(createUser, updateUser, deleteUser));
+                userService.getAllDistinctPrivileges(asList(
+                        createUser,
+                        updateUser,
+                        updateUser1,
+                        deleteUser));
 
         assertThat(distinctPrivileges).containsExactlyInAnyOrder(Privilege.CREATE, Privilege.UPDATE, Privilege.DELETE);
+
+        Assertions.assertEquals(distinctPrivileges.size(), 3);
+
     }
 
     @Test
@@ -61,6 +82,7 @@ public class UserServiceImplTest {
     }
 
     @Test
+    @DisplayName("Count of Users for each Privilege")
     public void shouldReturnGroupedMapByNumberOfPrivileges() {
         final int ONE_PRIVILEGE = 1;
         final int TWO_PRIVILEGES = 2;
@@ -95,12 +117,24 @@ public class UserServiceImplTest {
     }
 
     @Test
+    @DisplayName("Return average age of Users")
     public void shouldReturnMinusOneInsteadOfAverageForEmptyList() {
-        final int expectedAverage = -1;
-        final double averageAge = userService.getAverageAgeForUsers(emptyList());
+        final User createUser = new User(1L, "John", "Doe", 26,
+                Collections.singletonList(Privilege.CREATE));
+        final User updateUser = new User(2L, "Greg", "Smith", 30,
+                Collections.singletonList(Privilege.UPDATE));
+        final User updateUser1 = new User(3L, "Greg", "Smith", 20,
+                Collections.singletonList(Privilege.UPDATE));
+        final User deleteUser = new User(4L, "Alex", "Smith", 13,
+                Collections.singletonList(Privilege.DELETE));
 
-        assertThat(averageAge).isEqualTo(expectedAverage);
-    }
+        double averageAge = userService.getAverageAgeForUsers(
+                Arrays.asList(createUser, updateUser, updateUser1, deleteUser)
+        );
+
+        System.out.println(averageAge);
+        Assertions.assertEquals(averageAge, 22.25);
+            }
 
     @Test
     public void shouldReturnMostFrequentLastName() {
@@ -118,15 +152,23 @@ public class UserServiceImplTest {
     }
 
     @Test
+    @DisplayName("Return most frequent occurring last name from the list")
     public void shouldReturnOptionalEmptyIfThereAreDistinctNumberOfLastNames() {
-        final User user1 = new User(1L, "John", "Doe", 26, singletonList(Privilege.UPDATE));
-        final User user2 = new User(2L, "Greg", "Jonson", 30, singletonList(Privilege.UPDATE));
-        final User user3 = new User(3L, "Alex", "Smith", 13, singletonList(Privilege.DELETE));
+        final User createUser = new User(1L, "John", "Doe", 26,
+                Collections.singletonList(Privilege.CREATE));
+        final User updateUser = new User(2L, "Greg", "Smith", 30,
+                Collections.singletonList(Privilege.UPDATE));
+        final User updateUser1 = new User(3L, "Greg", "Smith", 20,
+                Collections.singletonList(Privilege.UPDATE));
+        final User deleteUser = new User(4L, "Alex", "Smith", 13,
+                Collections.singletonList(Privilege.DELETE));
 
-        final Optional<String> mostFrequentLastName =
-                userService.getMostFrequentLastName(asList(user1, user2, user3));
+        String lastName = userService.getMostFrequentLastName(
+                Arrays.asList(createUser, updateUser, updateUser1, deleteUser)
+        ).get();
 
-        assertThat(mostFrequentLastName).isEmpty();
+        System.out.println(lastName);
+        Assertions.assertEquals(lastName, "Smith");
     }
 
     @Test

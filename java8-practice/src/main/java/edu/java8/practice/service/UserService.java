@@ -103,6 +103,8 @@ public interface UserService {
      * @return map of last names and encountered number
      */
     Map<String, Long> getNumberOfLastNames(final List<User> users);
+
+    Map<User, Integer> countOfPrivilegesPerUser(final List<User> users);
 }
 
 
