@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.sds.productManagement</groupId>
 	<artifactId>Product-Microservice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>Product-Microservice</name>
 	<description>Spring Boot Product Management Microservice</description>
 	<properties>

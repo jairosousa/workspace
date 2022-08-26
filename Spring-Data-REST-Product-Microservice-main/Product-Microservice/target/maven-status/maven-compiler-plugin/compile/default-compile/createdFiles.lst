@@ -1,0 +1,3 @@
+com\sds\productmanagement\ProductMicroserviceApplication.class
+com\sds\productmanagement\entity\Product.class
+com\sds\productmanagement\dao\ProductRepository.class
