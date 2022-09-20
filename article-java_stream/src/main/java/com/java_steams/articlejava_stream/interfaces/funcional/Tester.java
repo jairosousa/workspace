@@ -1,4 +1,4 @@
-package com.java_steams.articlejava_stream.interfaces.funcionais;
+package com.java_steams.articlejava_stream.interfaces.funcional;
 
 public class Tester {
       public static void main(String[] args) {

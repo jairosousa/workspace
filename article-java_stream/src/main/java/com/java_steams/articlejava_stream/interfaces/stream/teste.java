@@ -1,5 +1,8 @@
-package com.java_steams.articlejava_stream.interfaces.integradas;
+package com.java_steams.articlejava_stream.interfaces.stream;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -37,6 +40,17 @@ public class teste {
 
             Consumer<String> consumer = in -> System.out.println(in);
             consumer.accept("Hello World");
+
+            BinaryOperator<Integer> binaryOperator = (a, b) -> a * b;
+            System.out.println(binaryOperator.apply(3, 5));
+
+            /**
+             * Operadores de fluxo
+             */
+            List<String> words = Arrays.asList("foo", "bar", "home", "sword", "play", "animal", "sword", "car", "sun",
+                        "java");
+
+            words.stream().forEach(s -> System.out.println(s));
       }
 
       static void printWhenLT(int value, Predicate<Integer> testValue) {
