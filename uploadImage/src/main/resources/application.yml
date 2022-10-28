@@ -1,0 +1,20 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  datasource:
+    url:
+      jdbc:mysql://vivek-url-isntance-18979691hjsn88.us-west-2.rds.amazonaws.com:3306/insight_i95?useSSL=false
+    username: vivek
+    password: vivek
+    driver-class-name: com.mysql.cj.jdbc.Driver
+logging:
+  level:
+    org.springframework: ERROR
+    com.example.UploadImage: DEBUG
