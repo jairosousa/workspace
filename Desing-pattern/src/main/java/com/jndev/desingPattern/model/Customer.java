@@ -1,4 +1,4 @@
-package com.jndev.desingPattern;
+package com.jndev.desingPattern.model;
 
 /**
  * @Autor Jairo Nascimento

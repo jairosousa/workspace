@@ -1,4 +1,9 @@
-package com.jndev.desingPattern;
+package com.jndev.desingPattern.observer;
+
+import com.jndev.desingPattern.model.Customer;
+import com.jndev.desingPattern.model.DeliveryPackage;
+import com.jndev.desingPattern.model.PackageStatus;
+import com.jndev.desingPattern.service.NotificationService;
 
 import java.util.UUID;
 
